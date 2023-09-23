@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:plant_shop/constants/colors.dart';
+import 'package:plant_shop/constants/lists.dart';
 import 'package:plant_shop/utilities/size_config.dart';
 
-class CustomePlantCard extends StatelessWidget {
-  const CustomePlantCard({
+class CustomPlantCard extends StatelessWidget {
+  const CustomPlantCard({
     Key? key,
     required this.name,
     required this.image,
@@ -21,9 +22,14 @@ class CustomePlantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: SizeConfig.setSizeHorizontally(200),
-      margin: EdgeInsets.symmetric(
-        horizontal: SizeConfig.setSizeHorizontally(15),
-        vertical: SizeConfig.setSizeVertically(15),
+      margin: EdgeInsets.fromLTRB(
+        SizeConfig.setSizeHorizontally(15),
+        SizeConfig.setSizeVertically(index == 0 || index == 1 ? 0 : 15),
+        SizeConfig.setSizeHorizontally(15),
+        SizeConfig.setSizeVertically(
+            index == herbList.length - 1 || index == herbList.length - 2
+                ? 15
+                : 0),
       ),
       decoration: BoxDecoration(
         gradient: const RadialGradient(
@@ -54,36 +60,53 @@ class CustomePlantCard extends StatelessWidget {
             height: SizeConfig.setSizeHorizontally(90),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                image,
+              image: DecorationImage(
+                image: NetworkImage(
+                  image,
+                ),
                 fit: BoxFit.cover,
               ),
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(1, 2),
+                  blurRadius: 5,
+                  spreadRadius: 1,
+                  color: kBlackColor.withOpacity(0.4),
+                ),
+              ],
             ),
           ),
           SizedBox(
-            height: SizeConfig.setSizeVertically(25),
+            height: SizeConfig.setSizeVertically(10),
           ),
           Column(
             children: [
-              Text(
-                name,
-                style: TextStyle(
-                  color: kWhiteColor,
-                  fontSize: SizeConfig.setSizeHorizontally(18),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: SizeConfig.setSizeHorizontally(150),
                 ),
-                textAlign: TextAlign.center,
+                child: Text(
+                  name,
+                  style: TextStyle(
+                    color: kWhiteColor,
+                    fontSize: SizeConfig.setSizeHorizontally(18),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
               const SizedBox(height: 5),
-              Text(
-                sName,
-                style: TextStyle(
-                  color: kWhiteColor,
-                  fontSize: SizeConfig.setSizeHorizontally(17),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: SizeConfig.setSizeHorizontally(150),
                 ),
-                textAlign: TextAlign.center,
+                child: Text(
+                  sName,
+                  style: TextStyle(
+                    color: kWhiteColor,
+                    fontSize: SizeConfig.setSizeHorizontally(17),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ],
           ),

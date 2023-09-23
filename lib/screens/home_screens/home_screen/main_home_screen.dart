@@ -3,7 +3,7 @@ import 'package:plant_shop/constants/colors.dart';
 import 'package:plant_shop/constants/lists.dart';
 import 'package:plant_shop/functions/will_pop_scope_exit.dart';
 import 'package:plant_shop/screens/home_screens/home_screen/home_screen.dart';
-import 'package:plant_shop/screens/home_screens/saved_screen/saved_plants_screen.dart';
+import 'package:plant_shop/screens/home_screens/saved_screen/saved_screen.dart';
 import 'package:plant_shop/screens/home_screens/search_screen/search_screen.dart';
 import 'package:plant_shop/screens/home_screens/settings_screen/settings_screen.dart';
 import 'package:plant_shop/utilities/size_config.dart';
@@ -21,7 +21,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   List<Widget> scaffoldBodyScreens = const [
     HomeScreen(),
     SearchScreen(),
-    SavedPlantScreen(),
+    SavedScreen(),
     SettingsScreen(),
   ];
 
@@ -34,62 +34,67 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     return WillPopScope(
       onWillPop: () => onWillPopActionShowExitDialog(context),
       child: Scaffold(
-        body: scaffoldBodyScreens[selectedBottomNav],
-        resizeToAvoidBottomInset: true,
-        extendBody: true,
-        bottomNavigationBar: SafeArea(
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.setSizeHorizontally(20),
-              vertical: SizeConfig.setSizeVertically(10),
-            ),
-            margin: EdgeInsets.symmetric(
-              horizontal: SizeConfig.setSizeHorizontally(20),
-              vertical: SizeConfig.setSizeVertically(25),
-            ),
-            decoration: BoxDecoration(
-              color: kbackgroundColor2.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Row(
+        body: Stack(
+          children: [
+            scaffoldBodyScreens[selectedBottomNav],
+            Positioned.directional(
               textDirection: TextDirection.rtl,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ...List.generate(
-                  scaffoldBodyScreens.length,
-                  (index) => GestureDetector(
-                    onTap: () => setState(() {
-                      selectedBottomNav = index;
-                    }),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 150),
-                          width: selectedBottomNav == index ? 20 : 0,
-                          height: 5,
-                          decoration: BoxDecoration(
-                            color: kWhiteColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 36,
-                          height: 36,
-                          child: Icon(
-                            bottomNavs[index]['icon'],
-                            color: selectedBottomNav == index
-                                ? kWhiteColor
-                                : kGreyColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+              width: SizeConfig.getScreenWidth(),
+              bottom: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.setSizeHorizontally(20),
+                  vertical: SizeConfig.setSizeVertically(10),
                 ),
-              ],
+                margin: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.setSizeHorizontally(20),
+                  vertical: SizeConfig.setSizeVertically(25),
+                ),
+                decoration: BoxDecoration(
+                  color: kbackgroundColor2.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Row(
+                  textDirection: TextDirection.rtl,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ...List.generate(
+                      scaffoldBodyScreens.length,
+                      (index) => GestureDetector(
+                        onTap: () => setState(() {
+                          selectedBottomNav = index;
+                        }),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 150),
+                              width: selectedBottomNav == index ? 20 : 0,
+                              height: 5,
+                              decoration: BoxDecoration(
+                                color: kWhiteColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 36,
+                              height: 36,
+                              child: Icon(
+                                bottomNavs[index]['icon'],
+                                color: selectedBottomNav == index
+                                    ? kWhiteColor
+                                    : kGreyColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

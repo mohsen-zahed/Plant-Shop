@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:plant_shop/constants/colors.dart';
-import 'package:plant_shop/screens/home_screens/home_screen/home_screen.dart';
 import 'package:plant_shop/screens/home_screens/home_screen/main_home_screen.dart';
 import 'package:plant_shop/screens/initial_screens/onboarding_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,10 +19,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    initSharedPreferences();
+    // initSharedPreferences();
     Timer(
       const Duration(seconds: 3),
-      () => chechOnboardingScreen(),
+      () => checkOnBoardingScreen(),
     );
     super.initState();
   }
@@ -32,17 +31,20 @@ class _SplashScreenState extends State<SplashScreen> {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  Future<Object?> chechOnboardingScreen() {
-    bool? onBoarding = sharedPreferences.getBool('onBoarding');
-    if (sharedPreferences.getBool('onBoarding') == null){
-      sharedPreferences.setBool('onBoarding', false);
+  void checkOnBoardingScreen() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getBool('onBoarding') == null ||
+        sharedPreferences.getBool('onBoarding') == false) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, OnboardingScreen.routeName, (route) => false);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        MainHomeScreen.routeName,
+        (route) => false,
+        arguments: {'initial_value': 0},
+      );
     }
-    return  Navigator.pushNamed(
-            context,
-            MainHomeScreen.routeName,
-            arguments: {'initial_value': 0},
-          );
-        // : Navigator.pushNamed(context, OnboardingScreen.routeName);
   }
 
   @override
@@ -50,9 +52,12 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: kBlackColor,
       body: Center(
-        child: Image.asset(
-          'assets/images/backgrounds/launch-screen-image.jpg',
-          fit: BoxFit.cover,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.7,
+          child: Image.asset(
+            'assets/images/backgrounds/launch-screen-image.jpg',
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

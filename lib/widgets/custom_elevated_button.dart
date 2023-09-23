@@ -17,14 +17,28 @@ class CustomElevatedButton extends StatelessWidget {
       width: SizeConfig.getScreenWidth() * 0.6,
       height: SizeConfig.setSizeVertically(50),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
-      ),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: kButtonBorderColor,
+            width: 5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 0),
+              color: kBlackColor.withOpacity(0.4),
+              blurRadius: 10,
+            ),
+          ]),
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(kButtonColor),
+          elevation: MaterialStateProperty.all(0),
+          overlayColor: MaterialStateProperty.all(
+            kButtonColor.withOpacity(0.2),
+          ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
             ),
           ),
         ),

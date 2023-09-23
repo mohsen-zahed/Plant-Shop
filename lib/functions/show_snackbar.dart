@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:plant_shop/constants/colors.dart';
 import 'package:plant_shop/utilities/size_config.dart';
 
-void showSnackBar(
-    {required BuildContext context,
-    required String text,
-    required int duration}) {
+void showSnackBar({
+  required BuildContext context,
+  required String text,
+  required int duration,
+}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
+      showCloseIcon: true,
+      closeIconColor: kWhiteColor,
+      backgroundColor: kButtonBorderColor,
       duration: Duration(seconds: duration),
       content: Row(
         textDirection: TextDirection.rtl,

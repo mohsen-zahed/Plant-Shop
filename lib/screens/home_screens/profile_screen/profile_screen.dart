@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plant_shop/constants/colors.dart';
 import 'package:plant_shop/constants/lists.dart';
-import 'package:plant_shop/screens/home_screens/saved_screen/saved_plants_screen.dart';
+import 'package:plant_shop/screens/home_screens/saved_screen/saved_screen.dart';
 import '../../../utilities/size_config.dart';
 import '../home_screen/main_home_screen.dart';
 
@@ -199,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         // drawerListItems[index]['id'] == 1
                             Navigator.pushNamed(
                                 context,
-                                SavedPlantScreen.routeName,
+                                SavedScreen.routeName,
                                 arguments: {"index": index},
                               );
                             // : drawerListItems[index]['id'] == 4
